@@ -1,0 +1,40 @@
+#####################
+# Input Configuration
+#####################
+
+input * xkb_layout "us"
+#input * xkb_variant "colemak,,typewriter"
+#input * xkb_options "grp:win_space_toggle"
+input "MANUFACTURER1 Keyboard" xkb_model "pc101"
+
+################
+# Basic Bindings
+################
+
+set $mod Mod4
+
+set $left h
+set $down j
+set $up k
+set $right l
+
+#########
+# Helpers
+#########
+
+set $term alacritty
+# set $menu dmenu_path | wofi --dmenu | xargs swaymsg exec --
+set $menu dmenu_path | dmenu | xargs swaymsg exec --
+
+#########################
+# Window control bindings
+#########################
+
+bindsym $mod+Return exec $term
+bindsym $mod+q kill
+bindsym $mod+Space exec $menu
+
+# System config
+#bar {
+#    swaybar_command waybar
+#}
