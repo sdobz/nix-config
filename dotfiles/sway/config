@@ -26,8 +26,8 @@ set $right l
 #########
 
 set $term alacritty
-# set $menu dmenu_path | wofi --dmenu | xargs swaymsg exec --
-set $menu dmenu_path | dmenu | xargs swaymsg exec --
+set $menu dmenu_path | wofi --dmenu | xargs swaymsg exec --
+# set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
 #########################
 # Window control bindings

@@ -1,6 +1,13 @@
 { config, pkgs, lib, ... }:
 let
-  unstable = import <unstable> {};
+  #unstable = import <unstable> {};
+  #wl = import (builtins.fetchTarball https://github.com/colemickens/nixpkgs-wayland/archive/master.tar.gz);
+  #unstable = import <unstable> { overlays = [wl]; };
+  #pkgs = unstable.pkgs;
+  wofi_edge = pkgs.callPackage (builtins.fetchurl {
+    url = "https://raw.githubusercontent.com/NixOS/nixpkgs/master/pkgs/applications/misc/wofi/default.nix";
+    sha256 = "0wfigcrxihcdpkwm7ygkqvah0phw0g1g72k6jah51ng1gm0qvsra";
+  }) {};
 in
 {
   programs.sway = {
@@ -13,7 +20,7 @@ in
       mako # notification daemon
       alacritty #term
       dmenu # application launcher
-      # wofi # application launcher?
+      wofi_edge # application launcher?
     ];
   };
 
