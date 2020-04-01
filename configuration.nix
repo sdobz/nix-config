@@ -21,6 +21,11 @@ in {
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
   #boot.kernelModules = [ "kvm-amd" ];
+  #
+  
+  fonts.fonts = with pkgs; [
+    source-code-pro
+  ];
   
 
   virtualisation.libvirtd.enable = true;
