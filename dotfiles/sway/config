@@ -151,9 +151,9 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # System config
-#bar {
-#    swaybar_command waybar
-#}
+bar {
+    swaybar_command waybar
+}
 
 # Reload config
 bindsym $mod+Shift+c reload
