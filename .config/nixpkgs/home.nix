@@ -1,5 +1,12 @@
 { config, pkgs, ... }:
 
+let
+  ffmaster = import (builtins.fetchTarball {
+	  name = "nixos-firefox-master";
+	  url = https://github.com/nixos/nixpkgs/archive/bab82e78b287307148ae4c0ca436c4de32d144f0.tar.gz;
+	  sha256 = "13d9g2v4jpri4l1q9s1wgl3xsyb46dk657z7h729zm1h3rqn1sil";
+	}) {};
+in
 {
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -24,7 +31,8 @@
   ];
 
   home.packages = [
-    pkgs.firefox
+    ffmaster.pkgs.firefox-bin
+    #pkgs.firefox
     pkgs.lastpass-cli
     # pkgs.git
     # pkgs.vscode
@@ -43,12 +51,14 @@
     pkgs.psmisc
     pkgs.unzip
     pkgs.desktop-file-utils
+    pkgs.jq
 
     # pkgs.go_1_13
     pkgs.nodejs
     pkgs.yarn
 
-    pkgs.scrot # screenshotting
+    pkgs.grim  # screenshotting
+    pkgs.slurp # mouse detection
     pkgs.aha   # term color -> html
 
     pkgs.spotify
@@ -70,6 +80,9 @@
       userName = "sdobz";
       userEmail = "vincent@khougaz.com";
     };
+    vscode.userSettings = {
+      "update.channel" = "none";
+    };
     zsh = {
       enable = true;
       enableAutosuggestions = true;
@@ -88,6 +101,7 @@
       loginExtra = ''
         setopt extendedglob
         source $HOME/.aliases
+        export MOZ_ENABLE_WAYLAND=1
         bindkey '^R' history-incremental-pattern-search-backward
         bindkey '^F' history-incremental-pattern-search-forward
         # If running from tty1 start sway
