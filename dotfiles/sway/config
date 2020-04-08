@@ -158,6 +158,9 @@ bar {
 # Reload config
 bindsym $mod+Shift+c reload
 
+# Select a window and capture
+bindsym $mod+p $capture_window
+
 ###
 # System Status
 ###
