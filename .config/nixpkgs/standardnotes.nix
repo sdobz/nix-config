@@ -1,7 +1,7 @@
 { stdenv, appimage-run, fetchurl, runtimeShell }:
 
 let
-  version = "3.3.3";
+  version = "3.3.5";
 
   plat = {
     i386-linux = "i386";
@@ -9,8 +9,7 @@ let
   }.${stdenv.hostPlatform.system};
 
   sha256 = {
-    i386-linux = "0v2nsis6vb1lnhmjd28vrfxqwwpycv02j0nvjlfzcgj4b3400j7a";
-    x86_64-linux = "130n586cw0836zsbwqcz3pp3h0d4ny74ngqs4k4cvfb92556r7xh";
+    x86_64-linux = "0bnd369qznc4rw33wn1k3wdvmwfp7z4j02d4wfxz9k7limdicbsr";
   }.${stdenv.hostPlatform.system};
 in
 
@@ -19,7 +18,7 @@ stdenv.mkDerivation {
   inherit version;
 
   src = fetchurl {
-    url = "https://github.com/standardnotes/desktop/releases/download/v${version}/standard-notes-${version}-${plat}.AppImage";
+    url = "https://github.com/standardnotes/desktop/releases/download/v${version}/standard-notes-${version}.AppImage";
     inherit sha256;
   };
 
