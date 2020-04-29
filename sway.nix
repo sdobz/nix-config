@@ -28,6 +28,7 @@ in
     etc = {
       # Put config files in /etc. Note that you also can put these in ~/.config, but then you can't manage them with NixOS anymore!
       "sway/config".source = ./dotfiles/sway/config;
+      "sway/focused-cwd".source = ./dotfiles/sway/focused-cwd;
       "xdg/waybar/config".source = ./dotfiles/waybar/config;
       "xdg/waybar/style.css".source = ./dotfiles/waybar/style.css;
     };

@@ -25,7 +25,7 @@ set $right l
 # Helpers
 #########
 
-set $term alacritty
+set $term alacritty --working-directory $(/etc/sway/focused-cwd alacritty)
 set $menu dmenu_path | wofi --dmenu | xargs swaymsg exec --
 # set $menu dmenu_path | dmenu | xargs swaymsg exec --
 
