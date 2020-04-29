@@ -20,8 +20,9 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
-  #boot.kernelModules = [ "kvm-amd" ];
-  #
+  boot.kernel.sysctl = {
+    "fs.inotify.max_user_watches" = "12288";
+  };
   
   fonts.fonts = with pkgs; [
     source-code-pro
