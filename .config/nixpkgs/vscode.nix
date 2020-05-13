@@ -13,7 +13,8 @@
             $DRY_RUN_CMD mkdir -p $EXT_DIR
             $DRY_RUN_CMD chown ${config.vscode.user}:users $EXT_DIR
             for x in ${lib.concatMapStringsSep " " toString config.vscode.extensions}; do
-                $DRY_RUN_CMD ln -sf $x/share/vscode/extensions/* $EXT_DIR/
+                SRC_DIR=$(dirname $(find $x -not -path "*/node_modules/*" -name package.json))
+                ln -sf $SRC_DIR $EXT_DIR/
             done
             $DRY_RUN_CMD chown -R ${config.vscode.user}:users $EXT_DIR
         '';
