@@ -58,6 +58,17 @@ in {
   nixpkgs.config.allowUnfree = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  #fileSystems."/media/media" =
+  #  { device = "/dev/disk/by-uuid/0CAA20E0AA20C852";
+  #  };
+  #fileSystems."/media/windows" =
+  #  { device = "/dev/disk/by-uuid/4A96276396274F2F";
+  #  };
+  #fileSystems."/media/games" =
+  #  { device = "/dev/disk/by-uuid/A2328B23328AFC13";
+  #  };
+
+
   # networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -92,6 +103,7 @@ in {
     git
   ];
   programs.adb.enable = true;
+  # nix.useSandbox = false;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -115,6 +127,9 @@ in {
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio.enable = true;
+  services.journald.extraConfig = ''
+    SystemMaxUse=2G
+  '';
 
   # Enable the X11 windowing system.
   #services.xserver.enable = true;
