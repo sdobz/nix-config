@@ -82,6 +82,7 @@ in
 
     pkgs.zsh
     pkgs.oh-my-zsh
+    pkgs.spaceship-prompt
     pkgs.direnv
   ];
 
@@ -109,12 +110,14 @@ in
           "github"
           "z"
         ];
+        custom = "${pkgs.spaceship-prompt}/share/zsh";
         #theme = "frozencow";
-        theme = "agnoster";
+        #theme = "agnoster";
+        theme = "spaceship";
       };
       loginExtra = ''
         setopt extendedglob
-        source $HOME/.aliases
+        # source $HOME/.aliases
         alias firefox="MOZ_ENABLE_WAYLAND=1 firefox"
         bindkey '^R' history-incremental-pattern-search-backward
         bindkey '^F' history-incremental-pattern-search-forward
