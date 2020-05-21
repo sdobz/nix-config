@@ -42,6 +42,8 @@ in
 
   home.packages = [
     ffmaster.pkgs.firefox-bin
+    (pkgs.callPackage (pkgs.path + "/pkgs/tools/X11/xdg-utils") {})
+    #pkgs.gnupg
     #pkgs.firefox
     pkgs.lastpass-cli
     pkgs.ncdu # disk usage cli
@@ -50,7 +52,8 @@ in
     pkgs.docker
     pkgs.docker-compose
     pkgs.cntr
-    pkgs.xournal
+    # pkgs.xournal
+    pkgs.masterpdfeditor
 
     # pkgs.platformio
     
@@ -80,6 +83,10 @@ in
     #pkgs.standardnotes
     (pkgs.callPackage ./standardnotes.nix {})
 
+    # MuseDev
+    pkgs.slack
+    pkgs.pass
+
     pkgs.zsh
     pkgs.oh-my-zsh
     pkgs.spaceship-prompt
@@ -87,6 +94,9 @@ in
   ];
 
   programs = {
+    gpg = {
+      enable = true;
+    };
     direnv = {
       enable = true;
     };
@@ -101,6 +111,7 @@ in
     zsh = {
       enable = true;
       enableAutosuggestions = true;
+      enableCompletion = true;
       history.extended = true;
       oh-my-zsh = {
         enable = true;
@@ -109,6 +120,7 @@ in
           "git"
           "github"
           "z"
+          "pass"
         ];
         custom = "${pkgs.spaceship-prompt}/share/zsh";
         #theme = "frozencow";
@@ -125,6 +137,14 @@ in
         if [ "$(tty)" = "/dev/tty1" ]; then
           startsway
         fi
+
+        compdef _pass mpass
+        zstyle ':completion::complete:mpass::' prefix "$HOME/MuseDev/secrets"
+	mpass() {
+          PASSWORD_STORE_DIR=$HOME/MuseDev/secrets pass $@
+        }
+
+        export EDITOR=vim
       '';
     };
   };
