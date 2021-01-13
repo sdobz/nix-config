@@ -32,6 +32,8 @@ in {
 
   virtualisation.libvirtd.enable = true;
   virtualisation.docker.enable = true;
+  virtualisation.docker.extraOptions =
+    "--data-root=/media/linux-extra/docker";
 
   #boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_4_19.override {
   #  argsOverride = rec {
@@ -58,14 +60,30 @@ in {
   nixpkgs.config.allowUnfree = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  #fileSystems."/media/media" =
-  #  { device = "/dev/disk/by-uuid/0CAA20E0AA20C852";
-  #  };
-  #fileSystems."/media/windows" =
-  #  { device = "/dev/disk/by-uuid/4A96276396274F2F";
-  #  };
-  #fileSystems."/media/games" =
-  #  { device = "/dev/disk/by-uuid/A2328B23328AFC13";
+  fileSystems."/boot/" =
+    { device = "/dev/disk/by-uuid/8025-168E";
+      fsType = "vfat";
+      options = [ "rw" ];
+    };
+  fileSystems."/media/media" =
+    { device = "/dev/disk/by-uuid/0CAA20E0AA20C852";
+      fsType = "ntfs";
+      options = [ "rw" ];
+    };
+  fileSystems."/media/windows" =
+    { device = "/dev/disk/by-uuid/3454E17054E134F0";
+      fsType = "ntfs";
+      options = [ "rw" ];
+    };
+  fileSystems."/media/games" =
+    { device = "/dev/disk/by-uuid/A2328B23328AFC13";
+      fsType = "ntfs";
+      options = [ "rw" ];
+    };
+  #fileSystems."/media/linux-extra" =
+  #  { device = "/dev/disk/by-uuid/f8fcceb2-24ac-42d7-b9db-ffd77e11a037";
+  #    fsType = "ext4";
+  #    options = [ "rw" ];
   #  };
 
 
@@ -77,7 +95,9 @@ in {
   # replicates the default behaviour.
   networking.useDHCP = false;
   #networking.interfaces.enp30s0.useDHCP = true;
-  networking.interfaces.enp33s0.useDHCP = true;
+  #networking.interfaces.enp33s0.useDHCP = true;
+  networking.interfaces.enp41s0.useDHCP = true;
+  # ifconfig -a
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -116,7 +136,7 @@ in {
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 8000 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
@@ -165,12 +185,15 @@ in {
       "libvirtd"
      ];
   };
+  security.sudo.extraConfig = ''
+    Defaults env_keep += "XAUTHORITY"
+  '';
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-  system.stateVersion = "19.09"; # Did you read the comment?
+  system.stateVersion = "20.03"; # Did you read the comment?
 
 }
 

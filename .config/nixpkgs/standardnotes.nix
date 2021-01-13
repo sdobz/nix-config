@@ -1,7 +1,7 @@
 { stdenv, appimage-run, fetchurl, runtimeShell }:
 
 let
-  version = "3.3.5";
+  version = "3.4.1";
 
   plat = {
     i386-linux = "i386";
@@ -9,7 +9,7 @@ let
   }.${stdenv.hostPlatform.system};
 
   sha256 = {
-    x86_64-linux = "0bnd369qznc4rw33wn1k3wdvmwfp7z4j02d4wfxz9k7limdicbsr";
+    x86_64-linux = "1bmd5hdsixcc17djmx6fv1ksm71ym124dfnjs4p4jbdhk4n6zgmi";
   }.${stdenv.hostPlatform.system};
 in
 

@@ -3,11 +3,6 @@
 let
   unstable = import <unstable> {};
   rust-esp = unstable.callPackage "/home/vkhougaz/projects/hanging-plotter/esp32/rust-esp-nix" {};
-  ffmaster = import (builtins.fetchTarball {
-	  name = "nixos-firefox-master";
-	  url = https://github.com/nixos/nixpkgs/archive/bab82e78b287307148ae4c0ca436c4de32d144f0.tar.gz;
-	  sha256 = "13d9g2v4jpri4l1q9s1wgl3xsyb46dk657z7h729zm1h3rqn1sil";
-	}) {};
 in
 {
   # Let Home Manager install and manage itself.
@@ -35,16 +30,17 @@ in
   vscode.homeDir = "/home/vkhougaz";
   vscode.extensions = with pkgs.vscode-extensions; [
       ms-vscode.cpptools
-      (unstable.vscode-extensions.matklad.rust-analyzer.override {
-        rust-analyzer = rust-esp.rust-analyzer;
-      })
+      #(unstable.vscode-extensions.matklad.rust-analyzer.override {
+      #  rust-analyzer = rust-esp.rust-analyzer;
+      #})
   ];
 
   home.packages = [
-    ffmaster.pkgs.firefox-bin
+    #ffmaster.pkgs.firefox-bin
+    #pkgs.firefox
+    unstable.pkgs.firefox-bin
     (pkgs.callPackage (pkgs.path + "/pkgs/tools/X11/xdg-utils") {})
     #pkgs.gnupg
-    #pkgs.firefox
     pkgs.lastpass-cli
     pkgs.ncdu # disk usage cli
     # pkgs.git
@@ -54,6 +50,10 @@ in
     pkgs.cntr
     # pkgs.xournal
     pkgs.masterpdfeditor
+    pkgs.gparted
+    pkgs.unetbootin
+    pkgs.xorg.xhost
+    pkgs.file
 
     # pkgs.platformio
     
@@ -93,6 +93,12 @@ in
     pkgs.direnv
   ];
 
+  services.gpg-agent = {
+    enable = true;
+    extraConfig = ''
+      pinentry-program ${pkgs.pinentry}/bin/pinentry
+    '';
+  };
   programs = {
     gpg = {
       enable = true;

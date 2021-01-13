@@ -18,7 +18,14 @@
       fsType = "ext4";
     };
 
-  swapDevices = [ ];
+  fileSystems."/media/linux-extra" =
+    { device = "/dev/disk/by-uuid/f8fcceb2-24ac-42d7-b9db-ffd77e11a037";
+      fsType = "ext4";
+    };
+
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/78ddc1e1-0a3c-4a98-b791-0e08f2826420"; }
+    ];
 
   nix.maxJobs = lib.mkDefault 16;
 }

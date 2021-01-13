@@ -1,8 +1,8 @@
 { config, pkgs, lib, ... }:
 let
-  #unstable = import <unstable> {};
+  unstable = import <unstable> {};
   #wl = import (builtins.fetchTarball https://github.com/colemickens/nixpkgs-wayland/archive/master.tar.gz);
-  #unstable = import <unstable> { overlays = [wl]; };
+  #unstable = import <unstable> { overlays = [ wl ]; };
   #pkgs = unstable.pkgs;
   wofi_edge = pkgs.callPackage (builtins.fetchurl {
     url = "https://raw.githubusercontent.com/NixOS/nixpkgs/master/pkgs/applications/misc/wofi/default.nix";
@@ -18,7 +18,7 @@ in
       xwayland # for legacy apps
       waybar # status bar
       mako # notification daemon
-      alacritty #term
+      unstable.pkgs.alacritty #term
       dmenu # application launcher
       wofi_edge # application launcher?
     ];
