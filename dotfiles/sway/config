@@ -30,7 +30,9 @@ set $right l
 
 set $term alacritty --working-directory $(/etc/sway/focused-cwd alacritty)
 set $menu dmenu_path | wofi --dmenu | xargs swaymsg exec --
+set $wofi_pass /etc/sway/wofi-pass
 # set $menu dmenu_path | dmenu | xargs swaymsg exec --
+
 
 #########################
 # Window control bindings
@@ -39,6 +41,7 @@ set $menu dmenu_path | wofi --dmenu | xargs swaymsg exec --
 bindsym $mod+Return exec $term
 bindsym $mod+q kill
 bindsym $mod+Space exec $menu
+bindsym $mod+p exec $wofi_pass
 
 #
 # Moving around:
@@ -162,7 +165,7 @@ bar {
 bindsym $mod+Shift+c reload
 
 # Select a window and capture
-bindsym $mod+p $capture_window
+bindsym $mod+i $capture_window
 
 ###
 # System Status
@@ -172,3 +175,13 @@ exec swayidle -w \
          timeout 600 'swaymsg "output * dpms off"' \
              resume 'swaymsg "output * dpms on"' \
          before-sleep 'swaylock -f -c 000000'
+
+
+# https://git.archlinux.org/svntogit/community.git/tree/trunk/50-systemd-user.conf?h=packages/sway
+# sway does not set DISPLAY/WAYLAND_DISPLAY in the systemd user environment
+# See FS#63021
+# Adapted from xorg's 50-systemd-user.sh, which achieves a similar goal.
+
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec hash dbus-update-activation-environment 2>/dev/null && \
+     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK

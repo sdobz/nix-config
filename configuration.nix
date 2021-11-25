@@ -21,7 +21,7 @@ in {
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
   boot.kernel.sysctl = {
-    "fs.inotify.max_user_watches" = "12288";
+    "fs.inotify.max_user_watches" = "1048576";
   };
   
   fonts.fonts = with pkgs; [
@@ -80,7 +80,13 @@ in {
       fsType = "ntfs";
       options = [ "rw" ];
     };
-  #fileSystems."/media/linux-extra" =
+  fileSystems."/media/fast" =
+    { device = "/dev/disk/by-uuid/B47EE25B7EE215C0";
+      fsType = "ntfs";
+      options = [ "rw" ];
+    };
+  
+#fileSystems."/media/linux-extra" =
   #  { device = "/dev/disk/by-uuid/f8fcceb2-24ac-42d7-b9db-ffd77e11a037";
   #    fsType = "ext4";
   #    options = [ "rw" ];
@@ -123,7 +129,13 @@ in {
     git
   ];
   programs.adb.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
+    pinentryFlavor = "gtk2";
+  };
   # nix.useSandbox = false;
+  nix.trustedUsers = [ "vkhougaz" ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -167,6 +179,7 @@ in {
 
   # Enable touchpad support.
   # services.xserver.libinput.enable = true;
+  services.udisks2.enable = true;
 
 
   # Define a user account. Don't forget to set a password with ‘passwd’.

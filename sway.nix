@@ -6,7 +6,7 @@ let
   #pkgs = unstable.pkgs;
   wofi_edge = pkgs.callPackage (builtins.fetchurl {
     url = "https://raw.githubusercontent.com/NixOS/nixpkgs/master/pkgs/applications/misc/wofi/default.nix";
-    sha256 = "0wfigcrxihcdpkwm7ygkqvah0phw0g1g72k6jah51ng1gm0qvsra";
+    sha256 = "1kp41i2qmia32i2prxvs3yphfc0pn6w50vsqvd4xc4kg2m52bd27";
   }) {};
 in
 {
@@ -20,7 +20,8 @@ in
       mako # notification daemon
       unstable.pkgs.alacritty #term
       dmenu # application launcher
-      wofi_edge # application launcher?
+      unstable.pkgs.wofi # application launcher?
+      wl-clipboard
     ];
   };
 
@@ -29,6 +30,7 @@ in
       # Put config files in /etc. Note that you also can put these in ~/.config, but then you can't manage them with NixOS anymore!
       "sway/config".source = ./dotfiles/sway/config;
       "sway/focused-cwd".source = ./dotfiles/sway/focused-cwd;
+      "sway/wofi-pass".source = ./dotfiles/sway/wofi-pass;
       "xdg/waybar/config".source = ./dotfiles/waybar/config;
       "xdg/waybar/style.css".source = ./dotfiles/waybar/style.css;
     };

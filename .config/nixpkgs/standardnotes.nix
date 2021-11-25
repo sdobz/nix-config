@@ -1,7 +1,7 @@
-{ stdenv, appimage-run, fetchurl, runtimeShell }:
+{ stdenv, appimage-run, fetchurl, runtimeShell, pkgs }:
 
 let
-  version = "3.4.1";
+  version = "3.6.8";
 
   plat = {
     i386-linux = "i386";
@@ -9,7 +9,7 @@ let
   }.${stdenv.hostPlatform.system};
 
   sha256 = {
-    x86_64-linux = "1bmd5hdsixcc17djmx6fv1ksm71ym124dfnjs4p4jbdhk4n6zgmi";
+    x86_64-linux = "1fk5iks3gx5q2186vxhgzdxn7vgywz195582isbfs7f0dlx7xiqm";
   }.${stdenv.hostPlatform.system};
 in
 
@@ -18,7 +18,7 @@ stdenv.mkDerivation {
   inherit version;
 
   src = fetchurl {
-    url = "https://github.com/standardnotes/desktop/releases/download/v${version}/standard-notes-${version}.AppImage";
+    url = "https://github.com/standardnotes/desktop/releases/download/v${version}/standard-notes-${version}-linux-${plat}.AppImage";
     inherit sha256;
   };
 
@@ -30,6 +30,7 @@ stdenv.mkDerivation {
     mkdir -p $out/{bin,share}
     cp $src $out/share/standardNotes.AppImage
     echo "#!${runtimeShell}" > $out/bin/standardnotes
+    echo "export LD_LIBRARY_PATH='${pkgs.libsecret}/lib'" > $out/bin/standardnotes
     echo "${appimage-run}/bin/appimage-run $out/share/standardNotes.AppImage" >> $out/bin/standardnotes
     chmod +x $out/bin/standardnotes $out/share/standardNotes.AppImage
   '';
